@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Dashboard</h2>
+    <h2>Welcome, {{ request.user.username }}</h2>
+
+<!-- Form to add data -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Data</button>
+</form>
+
+<!-- Table displaying added data -->
+<h3>Added Data</h3>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Place</th>
+        <th>Marks</th>
+        <th>Class</th>
+        <th>Semester</th>
+        <th>Gender</th>
+        <th>Nationality</th>
+        <th>Grade</th>
+        <th>Section</th>
+        <th>Topic</th>
+        <th>Stage</th>
+        <th>Absent Days</th>
+    </tr>
+    {% for data in user_data %}
+    <tr>
+        <td>{{ data.name }}</td>
+        <td>{{ data.place }}</td>
+        <td>{{ data.marks }}</td>
+        <td>{{ data.class_name }}</td>
+        <td>{{ data.semester }}</td>
+        <td>{{ data.gender }}</td>
+        <td>{{ data.nationality }}</td>
+        <td>{{ data.grade }}</td>
+        <td>{{ data.section }}</td>
+        <td>{{ data.topic }}</td>
+        <td>{{ data.stage }}</td>
+        <td>{{ data.absent_days }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Graph Selection -->
+<h3>Select Graph Type</h3>
+<form method="get">
+    <select name="graph_type">
+        <option value="marks_class_count">Marks Class Count Graph</option>
+        <option value="marks_class_semester">Marks Class Semester-wise Graph</option>
+        <option value="marks_class_gender">Marks Class Gender-wise Graph</option>
+        <option value="marks_class_nationality">Marks Class Nationality-wise Graph</option>
+        <option value="marks_class_grade">Marks Class Grade-wise Graph</option>
+        <option value="marks_class_section">Marks Class Section-wise Graph</option>
+        <option value="marks_class_topic">Marks Class Topic-wise Graph</option>
+        <option value="marks_class_stage">Marks Class Stage-wise Graph</option>
+        <option value="marks_class_absent_days">Marks Class Absent Days-wise Graph</option>
+    </select>
+    <button type="submit">Generate Graph</button>
+</form>
+
+<!-- Display Graph -->
+{% if graph_image %}
+    <h3>Graph</h3>
+    <img src="data:image/png;base64,{{ graph_image }}" alt="Generated Graph">
+{% endif %}
+
+
+<a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>
