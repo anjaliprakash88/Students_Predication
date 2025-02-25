@@ -1,0 +1,22 @@
+<!-- Graph Selection -->
+<h3>Select Graph Type</h3>
+<form method="get">
+    <select name="graph_type">
+        <option value="marks_class_count">Marks Class Count Graph</option>
+        <option value="marks_class_semester">Marks Class Semester-wise Graph</option>
+        <option value="marks_class_gender">Marks Class Gender-wise Graph</option>
+        <option value="marks_class_nationality">Marks Class Nationality-wise Graph</option>
+        <option value="marks_class_grade">Marks Class Grade-wise Graph</option>
+        <option value="marks_class_section">Marks Class Section-wise Graph</option>
+        <option value="marks_class_topic">Marks Class Topic-wise Graph</option>
+        <option value="marks_class_stage">Marks Class Stage-wise Graph</option>
+        <option value="marks_class_absent_days">Marks Class Absent Days-wise Graph</option>
+    </select>
+    <button type="submit">Generate Graph</button>
+</form>
+
+<!-- Display Graph -->
+{% if graph_image %}
+    <h3>Graph</h3>
+    <img src="data:image/png;base64,{{ graph_image }}" alt="Generated Graph">
+{% endif %}

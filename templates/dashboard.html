@@ -3,78 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Dashboard</h2>
-    <h2>Welcome, {{ request.user.username }}</h2>
 
-<!-- Form to add data -->
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Data</button>
-</form>
+<div class="container mt-4">
+    <h3>Welcome, {{ request.user.username }}</h3>
 
-<!-- Table displaying added data -->
-<h3>Added Data</h3>
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Place</th>
-        <th>Marks</th>
-        <th>Class</th>
-        <th>Semester</th>
-        <th>Gender</th>
-        <th>Nationality</th>
-        <th>Grade</th>
-        <th>Section</th>
-        <th>Topic</th>
-        <th>Stage</th>
-        <th>Absent Days</th>
-    </tr>
-    {% for data in user_data %}
-    <tr>
-        <td>{{ data.name }}</td>
-        <td>{{ data.place }}</td>
-        <td>{{ data.marks }}</td>
-        <td>{{ data.class_name }}</td>
-        <td>{{ data.semester }}</td>
-        <td>{{ data.gender }}</td>
-        <td>{{ data.nationality }}</td>
-        <td>{{ data.grade }}</td>
-        <td>{{ data.section }}</td>
-        <td>{{ data.topic }}</td>
-        <td>{{ data.stage }}</td>
-        <td>{{ data.absent_days }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <!-- Button to Open Modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDataModal">
+        Add Data
+    </button>
 
-<!-- Graph Selection -->
-<h3>Select Graph Type</h3>
-<form method="get">
-    <select name="graph_type">
-        <option value="marks_class_count">Marks Class Count Graph</option>
-        <option value="marks_class_semester">Marks Class Semester-wise Graph</option>
-        <option value="marks_class_gender">Marks Class Gender-wise Graph</option>
-        <option value="marks_class_nationality">Marks Class Nationality-wise Graph</option>
-        <option value="marks_class_grade">Marks Class Grade-wise Graph</option>
-        <option value="marks_class_section">Marks Class Section-wise Graph</option>
-        <option value="marks_class_topic">Marks Class Topic-wise Graph</option>
-        <option value="marks_class_stage">Marks Class Stage-wise Graph</option>
-        <option value="marks_class_absent_days">Marks Class Absent Days-wise Graph</option>
-    </select>
-    <button type="submit">Generate Graph</button>
-</form>
+    <!-- Bootstrap Modal -->
+   <!-- Bootstrap Modal -->
+<div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Add New Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form inside Modal -->
+                <form method="post">
+                    {% csrf_token %}
 
-<!-- Display Graph -->
-{% if graph_image %}
-    <h3>Graph</h3>
-    <img src="data:image/png;base64,{{ graph_image }}" alt="Generated Graph">
-{% endif %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.place.id_for_label }}" class="form-label">Place</label>
+                            {{ form.place }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.marks.id_for_label }}" class="form-label">Marks</label>
+                            {{ form.marks }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.class_name.id_for_label }}" class="form-label">Class</label>
+                            {{ form.class_name }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.semester.id_for_label }}" class="form-label">Semester</label>
+                            {{ form.semester }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                            {{ form.gender }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.nationality.id_for_label }}" class="form-label">Nationality</label>
+                            {{ form.nationality }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.grade.id_for_label }}" class="form-label">Grade</label>
+                            {{ form.grade }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.section.id_for_label }}" class="form-label">Section</label>
+                            {{ form.section }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.topic.id_for_label }}" class="form-label">Topic</label>
+                            {{ form.topic }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.stage.id_for_label }}" class="form-label">Stage</label>
+                            {{ form.stage }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.absent_days.id_for_label }}" class="form-label">Absent Days</label>
+                            {{ form.absent_days }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-<a href="{% url 'logout' %}">Logout</a>
+    <!-- Table displaying added data -->
+    <h3 class="mt-4">Added Data</h3>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Place</th>
+                <th>Marks</th>
+                <th>Class</th>
+                <th>Semester</th>
+                <th>Gender</th>
+                <th>Nationality</th>
+                <th>Grade</th>
+                <th>Section</th>
+                <th>Topic</th>
+                <th>Stage</th>
+                <th>Absent Days</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in user_data %}
+            <tr>
+                <td>{{ data.name }}</td>
+                <td>{{ data.place }}</td>
+                <td>{{ data.marks }}</td>
+                <td>{{ data.class_name }}</td>
+                <td>{{ data.semester }}</td>
+                <td>{{ data.gender }}</td>
+                <td>{{ data.nationality }}</td>
+                <td>{{ data.grade }}</td>
+                <td>{{ data.section }}</td>
+                <td>{{ data.topic }}</td>
+                <td>{{ data.stage }}</td>
+                <td>{{ data.absent_days }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'logout' %}" class="btn btn-danger mt-3">Logout</a>
+</div>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
