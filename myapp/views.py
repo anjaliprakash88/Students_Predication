@@ -1,19 +1,28 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, UserDataForm
+from .forms import RegisterForm, UserDataForm, TeacherForm
 from .models import UserData
 import matplotlib.pyplot as plt
 import io
 import base64
 import pandas as pd
+
+
+# --------------- TEACHER DETAILS ADD VIEW ---------------
+def add_teacher(request):
+    if request.method == "POST":
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            teacher = form.save(commit=False)
+            teacher.user = request.user
+            teacher.save()
+    else:
+        form = TeacherForm()
+    return render(request, 'add_teacher.html', {'form': form})
+
+
 # Register user
-
-
-
-
-
-
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)

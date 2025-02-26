@@ -18,3 +18,16 @@ class UserData(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.class_name}"
+
+
+# ---------------TEACHER DETAILS ADD MODEL---------------
+class Teacher(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=100)
+    experience = models.IntegerField(help_text="Years of experience")
+    phone = models.CharField(max_length=15)
+    address = models.TextField()
+
+    # def __str__(self):
+    #     return self.user.first_name
+
