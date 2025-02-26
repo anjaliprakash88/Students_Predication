@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, UserDataForm, TeacherForm
+from .forms import RegisterForm, UserDataForm, TeacherForm, User
 from .models import UserData
 import matplotlib.pyplot as plt
 import io
@@ -15,10 +15,25 @@ def add_teacher(request):
         form = TeacherForm(request.POST)
         if form.is_valid():
             teacher = form.save(commit=False)
-            teacher.user = request.user
+
+            user, created = User.objects.get_or_create(
+                username=form.cleaned_data['email'],
+                defaults={
+                    'first_name': form.cleaned_data['first_name'],
+                    'email': form.cleaned_data['email']
+                }
+            )
+
+            if not created:
+                user.first_name = form.cleaned_data['first_name']
+                user.email = form.cleaned_data['email']
+                user.save()
+
+            teacher.user = user
             teacher.save()
     else:
         form = TeacherForm()
+
     return render(request, 'add_teacher.html', {'form': form})
 
 
