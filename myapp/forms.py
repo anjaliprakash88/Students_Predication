@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserData
+from .models import UserData, Teacher
 
 class RegisterForm(UserCreationForm):
     username = forms.CharField(
@@ -27,3 +27,8 @@ class UserDataForm(forms.ModelForm):
         fields = ['name', 'place', 'marks', 'class_name', 'semester', 'gender', 'nationality', 'grade', 'section', 'topic', 'stage', 'absent_days']
 
 
+# ---------------TEACHER DETAILS ADD FORM--------------
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = ['subject', 'experience', 'phone', 'address']
