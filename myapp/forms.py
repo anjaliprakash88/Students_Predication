@@ -29,6 +29,30 @@ class UserDataForm(forms.ModelForm):
 
 # ---------------TEACHER DETAILS ADD FORM--------------
 class TeacherForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = Teacher
-        fields = ['subject', 'experience', 'phone', 'address']
+        fields = ['first_name', 'email', 'subject', 'experience', 'phone', 'address']
+
+    def save(self, commit=True):
+        teacher = super().save(commit=False)
+
+
+        if not teacher.user_id:
+            user = User.objects.create(
+                username=self.cleaned_data['email'],
+                first_name=self.cleaned_data['first_name'],
+                email=self.cleaned_data['email']
+            )
+            teacher.user = user
+
+        else:
+            teacher.user.first_name = self.cleaned_data['first_name']
+            teacher.user.email = self.cleaned_data['email']
+            teacher.user.save()
+
+        if commit:
+            teacher.save()
+        return teacher

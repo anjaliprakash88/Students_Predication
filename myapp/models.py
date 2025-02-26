@@ -22,12 +22,12 @@ class UserData(models.Model):
 
 # ---------------TEACHER DETAILS ADD MODEL---------------
 class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Changed to ForeignKey
     subject = models.CharField(max_length=100)
     experience = models.IntegerField(help_text="Years of experience")
     phone = models.CharField(max_length=15)
     address = models.TextField()
 
-    def __str__(self):
-        return self.user.username
+    # def __str__(self):
+    #     return self.user.first_name
 
